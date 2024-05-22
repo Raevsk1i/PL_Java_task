@@ -30,7 +30,7 @@ public class Main {
         // Task 2
         System.out.println("\n" + "Task №2");
         try (Connection connection = new ConnectionImpl();
-             Reader fileReader = new FileReader("src/main/resources/messages.dat");
+             Reader fileReader = new FileReader(args[0]);
              BufferedReader reader = new BufferedReader(fileReader))
         {
             connection.start();
