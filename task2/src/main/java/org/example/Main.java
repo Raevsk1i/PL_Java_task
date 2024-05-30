@@ -1,36 +1,23 @@
 package org.example;
 
-import ru.pflb.mq.dummy.exception.DummyException;
 import ru.pflb.mq.dummy.implementation.ConnectionImpl;
 import ru.pflb.mq.dummy.interfaces.Connection;
 import ru.pflb.mq.dummy.interfaces.Producer;
 import ru.pflb.mq.dummy.interfaces.Session;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Task 1
-        System.out.println("Task №1");
-        try (Connection connection = new ConnectionImpl())
-        {
-            String[] messages = new String[]{"Четыре", "Пять", "Шесть"};
-            Session session = connection.createSession(true);
-            Producer producer = session.createProducer(session.createDestination("queue"));
-            for (String message : messages) {
-                producer.send(message);
-                Thread.sleep(2000);
-            }
-            session.close();
-        } catch (DummyException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        sendingMessagesFromFile(args[0]);
+    }
 
-        // Task 2
-        System.out.println("\n" + "Task №2");
+    public static int sendingMessagesFromFile(String filePath) {
         try (Connection connection = new ConnectionImpl();
-             Reader fileReader = new FileReader(args[0]);
+             Reader fileReader = new FileReader(filePath);
              BufferedReader reader = new BufferedReader(fileReader))
         {
             connection.start();
@@ -53,5 +40,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return 0;
     }
 }
